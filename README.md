@@ -11,3 +11,5 @@ matching_pairs.py - List of whole positive #s. and a number, find the complement
 count_island.py - Given a 2d grid of 1s (land) and 0s (water) , count the number of isalnd
 
 delete_nodes_tree.py - delete node from a btree and return forest of tress
+
+first_nonrepeating.py - first non repeating character
