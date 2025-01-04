@@ -15,3 +15,5 @@ delete_nodes_tree.py - delete node from a btree and return forest of tress
 first_nonrepeating.py - first non repeating character
 
 divsubs.py given a multiset of N integers. Please find such a nonempty subset of it that the sum of the subset's elements is divisible by N.
+
+seive_cache_algo.py - sieve caching algo
