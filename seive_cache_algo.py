@@ -175,12 +175,21 @@ cache = Cache(3)
 requests = [1, 2, 3, 1, 4, 5]
 for req in requests:
     cache.access(req)
-    print(f"Cache state after accessing {req}: {[node.value for node in cache.cache.values()]}")
+    # print(f"Cache state after accessing {req}: {[node.value for node in cache.cache.values()]}")
+    print(f"Cache state after accessing {req}: ", end=" ")
+    print("Head --> Tail", end=" ")
+    o = cache.head
+    while o is not None:
+        print("[",o.value, o.visited,"]" ,end=" ")
+        o = o.next
+    print("Hand:",end= " ")
+    print(cache.hand.value if cache.hand else None)
 
-# % python3 seive_cache_algo2.py
-# Cache state after accessing 1: [1]
-# Cache state after accessing 2: [1, 2]
-# Cache state after accessing 3: [1, 2, 3]
-# Cache state after accessing 1: [1, 2, 3]
-# Cache state after accessing 4: [1, 3, 4]
-# Cache state after accessing 5: [1, 4, 5]
+
+# % python3 seive_cache_algo.py
+# Cache state after accessing 1:  Head --> Tail [ 1 0 ] Hand: None
+# Cache state after accessing 2:  Head --> Tail [ 2 0 ] [ 1 0 ] Hand: None
+# Cache state after accessing 3:  Head --> Tail [ 3 0 ] [ 2 0 ] [ 1 0 ] Hand: None
+# Cache state after accessing 1:  Head --> Tail [ 3 0 ] [ 2 0 ] [ 1 1 ] Hand: None
+# Cache state after accessing 4:  Head --> Tail [ 4 0 ] [ 3 0 ] [ 1 0 ] Hand: 3
+# Cache state after accessing 5:  Head --> Tail [ 5 0 ] [ 4 0 ] [ 1 0 ] Hand: 4
