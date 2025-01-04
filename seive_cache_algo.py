@@ -107,3 +107,80 @@ if __name__ == "__main__":
 # found [7, 1]
 # [1, 0] [2, 1] [3, 1] [6, 1] [7, 1] 
 # [2, 0] [3, 0] [6, 1] [7, 1] [8, 0] 
+
+
+# ##################### #
+# Second Implementation #
+# ##################### #
+
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.visited = 0
+        self.next = None
+        self.prev = None
+
+class Cache:
+    def __init__(self,size):
+        self.size = size
+        self.cache = {}
+        self.head = None
+        self.tail = None
+        self.hand = None
+
+    def insert_at_head(self, node):
+        node.next = self.head
+        node.prev = None
+        if self.head:
+            self.head.prev = node
+        self.head = node
+        if self.tail == None:
+            self.tail = node
+
+    def remove_node(self, node):
+        if node.prev:
+            node.prev.next = node.next
+        if node.next:
+            node.next.prev = node.prev
+        if node == self.head:
+            self.head = node.next
+        if node == self.tail:
+            self.tail = node.prev
+        node.prev = node.next = None
+
+    def access(self, x):
+        if x in self.cache: # cache hit
+            node = self.cache[x]
+            node.visited = 1
+        else: # cache miss
+            if len(self.cache) == self.size: #cache full
+                curr = self.hand
+                if curr is None:
+                    curr = self.tail
+                while curr.visited == 1:
+                    curr.visited = 0
+                    curr = curr.prev
+                    if curr is None:
+                        curr = self.tail
+                self.hand = curr.prev
+                self.remove_node(curr)
+                del self.cache[curr.value]
+            new_node = Node(x)
+            self.insert_at_head(new_node)
+            self.cache[x] = new_node
+            new_node.visited = 0
+
+# Example usage
+cache = Cache(3)
+requests = [1, 2, 3, 1, 4, 5]
+for req in requests:
+    cache.access(req)
+    print(f"Cache state after accessing {req}: {[node.value for node in cache.cache.values()]}")
+
+# % python3 seive_cache_algo2.py
+# Cache state after accessing 1: [1]
+# Cache state after accessing 2: [1, 2]
+# Cache state after accessing 3: [1, 2, 3]
+# Cache state after accessing 1: [1, 2, 3]
+# Cache state after accessing 4: [1, 3, 4]
+# Cache state after accessing 5: [1, 4, 5]
